@@ -61,26 +61,54 @@ public class NewLibMS
      *
      * @param bookID 책 ID
      * @param userID 사용자 ID
-     * @return 대출 객체
+     * @return 대출 객체, 실패 시 null
      */
     public Loan borrowBook(String bookID, String stID)
     {
         // 1. 사용자 검색
         User user = userDB.search(stID);
-    
+
         // 2. 책 검색
         Book book = bookDB.search(bookID);
 
-        // 3. 대출 기록 생성
+        // 3. 사용자가 등록되어 있는지 확인
+        if (user == null)
+        {
+            System.out.println("등록되지 않은 사용자입니다.");
+            return null;
+        }
+
+        // 4. 책이 등록되어 있는지 확인
+        if (book == null)
+        {
+            System.out.println("등록되지 않은 도서입니다.");
+            return null;
+        }
+
+        // 5. 사용자 대출 한도 확인
+        if (!user.canBorrow())
+        {
+            System.out.println("최대 3권까지만 대출할 수 있습니다.");
+            return null;
+        }
+
+        // 6. 책의 대출 가능 여부 확인
+        if (!book.isAvailable())
+        {
+            System.out.println("이미 대출중인 도서입니다.");
+            return null;
+        }
+        
+        // 7. 대출 기록 생성
         LocalDate borrowDate = LocalDate.now();
         LocalDate dueDate = borrowDate.plusDays(14);
 
         Loan loan = new Loan("-",user,book,borrowDate,dueDate);
 
-        // 4. 대출 기록 저장
+        // 8. 대출 기록 저장
         loanDB.save(loan);
 
-        // 5. 도서와 사용자 상태 갱신
+        // 9. 도서와 사용자 상태 갱신
         book.markAsBorrowed();
         user.increaseLoanCount();
 

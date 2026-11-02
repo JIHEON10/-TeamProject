@@ -17,9 +17,9 @@ public class User
      * @param stID 이용자 고유 ID
      * @param name 이용자 이름
      */
-    public User(String userID, String name)
+    public User(String stID, String name)
     {
-        this.stID = userID;
+        this.stID = stID;
         this.name = name;
         this.loanCount = 0;
     }
@@ -31,7 +31,7 @@ public class User
      */
     public boolean canBorrow()
     {
-        return loanCount < 3;
+        return loanCount <= 3;
     }
 
     /**
@@ -40,8 +40,14 @@ public class User
      */
     public void increaseLoanCount()
     {
-        loanCount++;
-        // 최대 3권까지 - canborrow로 예외처리 필요
+        if (canBorrow())
+        {
+            loanCount++;
+        }
+        else
+        {
+            System.out.println("최대 3권까지만 대출할 수 있습니다.");
+        }
     }
 
     /**

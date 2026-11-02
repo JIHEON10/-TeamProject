@@ -26,8 +26,12 @@ public class Book
         this.author = author;
         this.IsAvailable = true;
     }
-    
-    //검토 필요, 클래스 다이어그램에는 없는 메소드인데 구현을 위해 일단 생성
+
+    /**
+     * 책 대출 가능 여부 확인
+     *
+     * @return 대출가능:True, 불가능:False
+     */
     public boolean isAvailable()
     {
         return IsAvailable;
@@ -39,7 +43,14 @@ public class Book
      */
     public void markAsBorrowed()
     {
-        //book 상태를 대출중으로 변경하는 메소드, isAvailable 사용해야 할듯
+        if (isAvailable())
+        {
+            IsAvailable = false;
+        }
+        else
+        {
+            System.out.println("이미 대출중인 도서입니다.");
+        }
     }
 
     /**
