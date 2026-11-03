@@ -9,7 +9,7 @@ import java.util.*;
 
 public class NewLibMS
 {
-    private String name;
+    private String libname;
     private UserDB userDB;
     private BookDB bookDB;
     private LoanDB loanDB;
@@ -21,14 +21,88 @@ public class NewLibMS
      */
     public NewLibMS(String name)
     {
-        this.name = name;
+        this.libname = name;
         this.userDB = new UserDB();
         this.bookDB = new BookDB();
         this.loanDB = new LoanDB();
     }
 
     /**
-     * Use Case 1: RegisterNewBorrower
+     * Use Case 1: BorrowBook
+     *
+     * @param bookID 책 ID
+     * @param userID 사용자 ID
+     * @return 대출 객체, 실패 시 null
+     */
+    public void borrowBook(String bookID, String stID)
+    {
+        // 1. 책 검색
+        Book book = bookDB.search(bookID);
+
+        // 2. 사용자 검색
+        User user = userDB.search(stID);
+
+        // 3. 사용자가 등록되어 있는지 확인
+        if (user != null)
+        {
+            userDB.display(user);
+        }
+        else
+        {
+            System.out.println("이용자를 찾을 수 없음!");
+        }
+
+        // 4. 책이 등록되어 있는지 확인
+        if (book != null)
+        {
+            bookDB.display(book);
+        }
+        else
+        {
+            System.out.println("책을 찾을 수 없음!");
+        }
+
+        // 5. 책의 대출 가능 여부 확인
+        boolean resultBook = book.isAvailable();
+
+        // 6. 사용자 대출 가능 여부 확인
+        boolean resultUser = user.canBorrow();
+
+        // 7. 대출 가능 여부에 따른 조건 분기
+        if (!resultBook && !resultUser)
+        {
+            System.out.println("책 대출 불가능! & 이용자 대출 불가능!");
+        }
+        else if (resultBook && !resultUser)
+        {
+            System.out.println("책 대출 가능! & 이용자 대출 불가능!");
+        }
+        else if (!resultBook && resultUser)
+        {
+            System.out.println("책 대출 불가능! & 이용자 대출 가능!");
+        }
+        else
+        {
+            // 8. 대출 객체 생성
+            LocalDate borrowDate = LocalDate.now();
+            LocalDate dueDate = borrowDate.plusDays(14);
+
+            Loan loan = new Loan("-", user, book, borrowDate, dueDate);
+
+            // 9. 객체 정보를 화면에 출력
+            loanDB.display(loan);
+
+            // 10. 대출 기록 저장
+            loanDB.save(loan);
+            
+            // 11. 도서와 사용자 상태 갱신
+            book.markAsBorrowed();
+            user.increaseLoanCount();
+        }
+    }
+
+    /**
+     * Use Case 2: RegisterNewBorrower
      *
      * @param userID 등록할 사용자의 id
      * @param name 등록할 사용자의 이름
@@ -42,7 +116,7 @@ public class NewLibMS
     }
 
     /**
-     * Use Case 2: RegisterNewBook
+     * Use Case 3: RegisterNewBook
      *
      * @param bookID 등록할 책 id
      * @param title 등록할 책 제목
@@ -54,65 +128,6 @@ public class NewLibMS
         Book book = new Book(bookID, title, author);
         bookDB.update(book);
         return book;
-    }
-
-    /**
-     * Use Case 3: BorrowBook
-     *
-     * @param bookID 책 ID
-     * @param userID 사용자 ID
-     * @return 대출 객체, 실패 시 null
-     */
-    public Loan borrowBook(String bookID, String stID)
-    {
-        // 1. 사용자 검색
-        User user = userDB.search(stID);
-
-        // 2. 책 검색
-        Book book = bookDB.search(bookID);
-
-        // 3. 사용자가 등록되어 있는지 확인
-        if (user == null)
-        {
-            System.out.println("등록되지 않은 사용자입니다.");
-            return null;
-        }
-
-        // 4. 책이 등록되어 있는지 확인
-        if (book == null)
-        {
-            System.out.println("등록되지 않은 도서입니다.");
-            return null;
-        }
-
-        // 5. 사용자 대출 한도 확인
-        if (!user.canBorrow())
-        {
-            System.out.println("최대 3권까지만 대출할 수 있습니다.");
-            return null;
-        }
-
-        // 6. 책의 대출 가능 여부 확인
-        if (!book.isAvailable())
-        {
-            System.out.println("이미 대출중인 도서입니다.");
-            return null;
-        }
-        
-        // 7. 대출 기록 생성
-        LocalDate borrowDate = LocalDate.now();
-        LocalDate dueDate = borrowDate.plusDays(14);
-
-        Loan loan = new Loan("-",user,book,borrowDate,dueDate);
-
-        // 8. 대출 기록 저장
-        loanDB.save(loan);
-
-        // 9. 도서와 사용자 상태 갱신
-        book.markAsBorrowed();
-        user.increaseLoanCount();
-
-        return loan;
     }
 
 }

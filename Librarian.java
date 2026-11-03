@@ -28,9 +28,9 @@ public class Librarian
         return system.registerNewBook(bookID, title, author);
     }
 
-    public Loan receiveRequest(String bookID, String userID)
+    public void receiveRequest(String bookID, String userID)
     {
-        return system.borrowBook(bookID, userID);
+        system.borrowBook(bookID, userID);
     }
 
     public void deliverDueDateInfo(Loan loan)

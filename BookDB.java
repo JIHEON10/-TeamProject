@@ -45,4 +45,14 @@ public class BookDB
     {
         books.add(book);
     }
+
+    /**
+     * 책 정보 출력
+     *
+     * @param book 책 정보
+     */
+    public void display(Book book)
+    {
+        System.out.println("책 객체 정보 출력");
+    }
 }

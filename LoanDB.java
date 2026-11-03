@@ -19,4 +19,14 @@ public class LoanDB
     {
         loans.put(loan.getLoanID(), loan);
     }
+
+    /**
+     * 대출 정보 출력
+     *
+     * @param loan 대출 정보
+     */
+    public void display(Loan loan)
+    {
+        System.out.println("대출 객체 정보 출력");
+    }
 }

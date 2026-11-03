@@ -9,7 +9,7 @@ public class User
 {
     private String stID;
     private String name;
-    private int loanCount;
+    private int resultUser;
 
     /**
      * User 객체 생성
@@ -21,7 +21,7 @@ public class User
     {
         this.stID = stID;
         this.name = name;
-        this.loanCount = 0;
+        this.resultUser = 0;
     }
 
     /**
@@ -31,7 +31,7 @@ public class User
      */
     public boolean canBorrow()
     {
-        return loanCount <= 3;
+        return resultUser <= 3;
     }
 
     /**
@@ -42,7 +42,7 @@ public class User
     {
         if (canBorrow())
         {
-            loanCount++;
+            resultUser++;
         }
         else
         {
@@ -75,9 +75,9 @@ public class User
      *
      * @return User 현재 대출 건수
      */
-    public int getLoanCount()
+    public int getresultUser()
     {
-        return loanCount;
+        return resultUser;
     }
 
 }

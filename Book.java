@@ -10,7 +10,7 @@ public class Book
     private String bookID;
     private String title;
     private String author;
-    private boolean IsAvailable;
+    private boolean resultBook;
 
     /**
      * Book 객체 생성
@@ -24,7 +24,7 @@ public class Book
         this.bookID = bookID;
         this.title = title;
         this.author = author;
-        this.IsAvailable = true;
+        this.resultBook = true;
     }
 
     /**
@@ -34,7 +34,7 @@ public class Book
      */
     public boolean isAvailable()
     {
-        return IsAvailable;
+        return resultBook;
     }
 
     /**
@@ -45,7 +45,7 @@ public class Book
     {
         if (isAvailable())
         {
-            IsAvailable = false;
+            resultBook = false;
         }
         else
         {
