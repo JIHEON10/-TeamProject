@@ -63,12 +63,15 @@ public class Book
         return bookID;
     }
 
-        /**
+    /**
      * 책 정보 출력
      *
      */
     public void display()
     {
-        System.out.println("책 객체 정보 출력");
+        System.out.println("=== 도서 정보 ===");
+        System.out.println("도서 번호: " + bookID);
+        System.out.println("제목: " + title);
+        System.out.println("저자: " + author);
     }
 }

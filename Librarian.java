@@ -9,7 +9,7 @@ public class Librarian
 {
     private String name;
     private String librarianID;
-    private NewLibMS system; // 추가
+    private NewLibMS system;
 
     public Librarian(String name, NewLibMS system)
     {
@@ -18,19 +18,19 @@ public class Librarian
         this.system = system;
     }
 
-    public void registerNewBorrower(String userID, String userName)
+    public void registerNewBorrower(String stID, String userName)
     {
-        system.registerNewBorrower(userID, userName);
+        system.registerNewBorrower(stID, userName);
     }
 
-    public Book registerNewBook(String bookID, String title, String author)
+    public void registerNewBook(String bookID, String title, String author)
     {
-        return system.registerNewBook(bookID, title, author);
+        system.registerNewBook(bookID, title, author);
     }
 
-    public void receiveRequest(String bookID, String userID)
+    public void receiveRequest(String bookID, String stID)
     {
-        system.borrowBook(bookID, userID);
+        system.borrowBook(bookID, stID);
     }
 
     public void deliverDueDateInfo(Loan loan)

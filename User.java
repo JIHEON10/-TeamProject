@@ -31,7 +31,7 @@ public class User
      */
     public boolean canBorrow()
     {
-        return resultUser <= 3;
+        return resultUser < 3;
     }
 
     /**
@@ -66,6 +66,9 @@ public class User
      */
     public void display()
     {
-        System.out.println("이용자 객체 정보 출력");
+        System.out.println("=== 이용자 정보 ===");
+        System.out.println("학번: " + stID);
+        System.out.println("이름: " + name);
+        System.out.println("현재 대출 권수: " + resultUser);
     }
 }

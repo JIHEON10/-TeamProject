@@ -44,26 +44,6 @@ public class Loan
     }
 
     /**
-     * 책 대출한 User 반환
-     *
-     * @return 책 대출한 User 객체
-     */
-    public User getUser()
-    {
-        return user;
-    }
-
-    /**
-     * 대출된 책 객체 반환
-     *
-     * @return 대출된 책 객체
-     */
-    public Book getBook()
-    {
-        return book;
-    }
-
-    /**
      * 도서 대출일 반납
      *
      * @return 도서 대출일
@@ -82,13 +62,17 @@ public class Loan
     {
         return dueDate;
     }
-    
-        /**
+
+    /**
      * 대출 정보 출력
      *
      */
     public void display()
     {
-        System.out.println("대출 객체 정보 출력");
+        System.out.println("=== 대출 정보 ===");
+        System.out.println("대출 번호: " + loanID);
+        System.out.println("이용자 ID: " + user.getstID());
+        System.out.println("대출일: " + borrowDate);
+        System.out.println("반납 예정일: " + dueDate);
     }
 }

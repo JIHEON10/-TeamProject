@@ -28,7 +28,7 @@ public class NewLibMS
     }
 
     /**
-     * Use Case 1: BorrowBook
+     * Use Case 1: BorrowBook, 책 빌리는 작업 수행
      *
      * @param bookID 책 ID
      * @param userID 사용자 ID
@@ -103,8 +103,8 @@ public class NewLibMS
     /**
      * Use Case 2: RegisterNewBorrower
      *
-     * @param userID 등록할 사용자의 id
-     * @param name 등록할 사용자의 이름
+     * @param userID 등록할 사용자 ID
+     * @param name 등록할 사용자 이름
      */
     public void registerNewBorrower(String stID, String name)
     {
@@ -123,7 +123,7 @@ public class NewLibMS
 
             // 4. 이용자 정보 저장
             userDB.update(user);
-            
+
             // 5. 객체 정보를 화면에 출력
             user.display();
 
@@ -135,16 +135,34 @@ public class NewLibMS
     /**
      * Use Case 3: RegisterNewBook
      *
-     * @param bookID 등록할 책 id
+     * @param bookID 등록할 책 ID
      * @param title 등록할 책 제목
      * @param author 등록할 책 저자
-     * @return 등록된 책
      */
-    public Book registerNewBook(String bookID, String title, String author)
+    public void registerNewBook(String bookID, String title, String author)
     {
-        Book book = new Book(bookID, title, author);
-        bookDB.update(book);
-        return book;
+        // 1. 기존 도서 검색
+        Book book = bookDB.search(bookID);
+
+        // 2. 등록 여부에 따른 조건 분기
+        if (book != null)
+        {
+            System.out.println("이미 등록된 책입니다!");
+        }
+        else
+        {
+            // 3. 신규 도서 객체 생성 및 정보 설정
+            book = new Book(bookID, title, author);
+
+            // 4. 도서 정보 저장
+            bookDB.update(book);
+
+            // 5. 객체 정보를 화면에 출력
+            book.display();
+
+            // 6. 등록 완료 메시지
+            System.out.println("도서 등록 완료!");
+        }
     }
 
 }
