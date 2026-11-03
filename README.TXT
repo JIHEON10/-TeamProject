@@ -1,3 +1,3 @@
-프로젝트 제목(PROJECT TITLE): Iteration#1
-버전 또는 작성일자(VERSION or DATE): 2026.11.03
+프로젝트 제목(PROJECT TITLE): NewLibMS
+버전 또는 작성일자(VERSION or DATE): Iteration#1 2026.11.03 
 제작자(AUTHORS): 2022320028 이지헌 2022320010 임연택 2022130008 심지우 2023320030 권종빈
