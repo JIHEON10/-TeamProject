@@ -18,9 +18,9 @@ public class Librarian
         this.system = system;
     }
 
-    public User registerNewBorrower(String userID, String userName)
+    public void registerNewBorrower(String userID, String userName)
     {
-        return system.registerNewBorrower(userID, userName);
+        system.registerNewBorrower(userID, userName);
     }
 
     public Book registerNewBook(String bookID, String title, String author)

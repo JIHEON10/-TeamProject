@@ -82,4 +82,13 @@ public class Loan
     {
         return dueDate;
     }
+    
+        /**
+     * 대출 정보 출력
+     *
+     */
+    public void display()
+    {
+        System.out.println("대출 객체 정보 출력");
+    }
 }

@@ -47,14 +47,4 @@ public class UserDB
         users.add(user);
     }
 
-    /**
-     * 이용자 정보 출력
-     *
-     * @param user 이용자 정보
-     */
-    public void display(User user)
-    {
-        System.out.println("이용자 객체 정보 출력");
-    }
-
 }

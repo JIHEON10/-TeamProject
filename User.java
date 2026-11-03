@@ -61,23 +61,11 @@ public class User
     }
 
     /**
-     * User 고유 Name 반환
+     * 이용자 정보 출력
      *
-     * @return name 이용자 고유 이름
      */
-    public String getName()
+    public void display()
     {
-        return name;
+        System.out.println("이용자 객체 정보 출력");
     }
-
-    /**
-     * User 현재 대출 건수 반환
-     *
-     * @return User 현재 대출 건수
-     */
-    public int getresultUser()
-    {
-        return resultUser;
-    }
-
 }

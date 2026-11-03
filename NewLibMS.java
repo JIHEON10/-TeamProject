@@ -32,7 +32,6 @@ public class NewLibMS
      *
      * @param bookID 책 ID
      * @param userID 사용자 ID
-     * @return 대출 객체, 실패 시 null
      */
     public void borrowBook(String bookID, String stID)
     {
@@ -45,7 +44,7 @@ public class NewLibMS
         // 3. 사용자가 등록되어 있는지 확인
         if (user != null)
         {
-            userDB.display(user);
+            user.display();
         }
         else
         {
@@ -55,7 +54,7 @@ public class NewLibMS
         // 4. 책이 등록되어 있는지 확인
         if (book != null)
         {
-            bookDB.display(book);
+            book.display();
         }
         else
         {
@@ -90,11 +89,11 @@ public class NewLibMS
             Loan loan = new Loan("-", user, book, borrowDate, dueDate);
 
             // 9. 객체 정보를 화면에 출력
-            loanDB.display(loan);
+            loan.display();
 
             // 10. 대출 기록 저장
             loanDB.save(loan);
-            
+
             // 11. 도서와 사용자 상태 갱신
             book.markAsBorrowed();
             user.increaseLoanCount();
@@ -106,13 +105,31 @@ public class NewLibMS
      *
      * @param userID 등록할 사용자의 id
      * @param name 등록할 사용자의 이름
-     * @return 등록된 사용자
      */
-    public User registerNewBorrower(String stID, String name)
+    public void registerNewBorrower(String stID, String name)
     {
-        User user = new User(stID, name);
-        userDB.update(user);
-        return user;
+        // 1. 기존 이용자 검색
+        User user = userDB.search(stID);
+
+        // 2. 등록 여부에 따른 조건 분기
+        if (user != null)
+        {
+            System.out.println("이미 등록된 이용자입니다!");
+        }
+        else
+        {
+            // 3. 신규 이용자 객체 생성 및 정보 설정
+            user = new User(stID, name);
+
+            // 4. 이용자 정보 저장
+            userDB.update(user);
+            
+            // 5. 객체 정보를 화면에 출력
+            user.display();
+
+            // 6. 등록 완료 메시지
+            System.out.println("이용자 등록 완료!");
+        }
     }
 
     /**

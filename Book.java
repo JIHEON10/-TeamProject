@@ -63,23 +63,12 @@ public class Book
         return bookID;
     }
 
-    /**
-     * Book 제목 반환
+        /**
+     * 책 정보 출력
      *
-     * @return title 책 제목
      */
-    public String getTitle()
+    public void display()
     {
-        return title;
-    }
-
-    /**
-     * Book 저자 반환
-     *
-     * @return author 책 저자
-     */
-    public String getAuthor()
-    {
-        return author;
+        System.out.println("책 객체 정보 출력");
     }
 }
