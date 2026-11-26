@@ -8,7 +8,7 @@ import java.util.*;
 
 public class UserDB
 {
-    private ArrayList<User> users;
+    private ArrayList<User> userDB;
 
     /**
      * UserDB 객체 생성
@@ -16,20 +16,20 @@ public class UserDB
      */
     public UserDB()
     {
-        users = new ArrayList<>();
+        userDB = new ArrayList<>();
     }
 
     /**
-     * userID를 이용해 사용자를 검색
+     * stID를 이용해 이용자를 검색
      *
-     * @param userID 검색할 이용자의 userID
-     * @return 검색된 userID
+     * @param stID 검색할 이용자의 학번
+     * @return 검색된 이용자(User), 없으면 null
      */
-    public User search(String userID)
+    public User search(String stID)
     {
-        for (User user : users)
+        for (User user : userDB)
         {
-            if (user.getstID().equals(userID))
+            if (user.getstID().equals(stID))
             {
                 return user;
             }
@@ -38,13 +38,19 @@ public class UserDB
     }
 
     /**
-     * 새 대출자 userDB에 등록
+     * 새 대출자를 userDB에 등록
      *
      * @param user 등록할 이용자
+     * @return 등록 성공 시 true, 실패 시 false
      */
-    public void update(User user)
+    public boolean update(User user)
     {
-        users.add(user);
+        if (user == null)
+        {
+            return false;
+        }
+
+        return userDB.add(user);
     }
 
 }

@@ -10,6 +10,7 @@ public class User
     private String stID;
     private String name;
     private int resultUser;
+    //private int loanCount; --?
 
     /**
      * User 객체 생성
@@ -22,6 +23,7 @@ public class User
         this.stID = stID;
         this.name = name;
         this.resultUser = 0;
+        //this.loanCount = 0;
     }
 
     /**

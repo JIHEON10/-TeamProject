@@ -103,33 +103,41 @@ public class NewLibMS
     /**
      * Use Case 2: RegisterNewBorrower
      *
-     * @param userID 등록할 사용자 ID
-     * @param name 등록할 사용자 이름
+     * @param stID 등록할 이용자 학번
+     * @param name 등록할 이용자 이름
      */
     public void registerNewBorrower(String stID, String name)
     {
         // 1. 기존 이용자 검색
         User user = userDB.search(stID);
 
-        // 2. 등록 여부에 따른 조건 분기
+        // 2. [user != null]
         if (user != null)
         {
             System.out.println("이미 등록된 이용자입니다!");
+            return;
         }
-        else
+
+        // [user == null]
+        // 3. 신규 이용자 객체 생성
+        user = new User(stID, name);
+
+        // 4. 이용자 정보 저장
+        boolean userUpdateResult = userDB.update(user);
+
+        // 5. 저장된 stID와 name을 화면에 출력
+        user.display();
+
+        // 6. 저장 결과에 따른 조건 분기
+        if (userUpdateResult == false)
         {
-            // 3. 신규 이용자 객체 생성 및 정보 설정
-            user = new User(stID, name);
-
-            // 4. 이용자 정보 저장
-            userDB.update(user);
-
-            // 5. 객체 정보를 화면에 출력
-            user.display();
-
-            // 6. 등록 완료 메시지
-            System.out.println("이용자 등록 완료!");
+            // [userUpdateResult == false]
+            System.out.println("등록 실패!");
+            return;
         }
+
+        // [userUpdateResult == true]
+        System.out.println("이용자 등록 완료!");
     }
 
     /**
@@ -154,15 +162,26 @@ public class NewLibMS
             // 3. 신규 도서 객체 생성 및 정보 설정
             book = new Book(bookID, title, author);
 
-            // 4. 도서 정보 저장
-            bookDB.update(book);
-
-            // 5. 객체 정보를 화면에 출력
+            // 4. 객체 정보를 화면에 출력
             book.display();
+
+            // 5. 도서 정보 저장
+            bookDB.update(book);
 
             // 6. 등록 완료 메시지
             System.out.println("도서 등록 완료!");
         }
+    }
+
+    /**
+     * 메소드 예제 - 사용자에 맞게 주석을 바꾸십시오.
+     *
+     * @param  y  메소드의 샘플 파라미터
+     * @return    x 와 y의 합
+     */
+    public void display(String stID, String name)
+    {
+        //미구현
     }
 
 }

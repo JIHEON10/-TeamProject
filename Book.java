@@ -28,16 +28,6 @@ public class Book
     }
 
     /**
-     * 책 대출 가능 여부 확인
-     *
-     * @return 대출가능:True, 불가능:False
-     */
-    public boolean isAvailable()
-    {
-        return resultBook;
-    }
-
-    /**
      * Book 상태를 대출중으로 변경
      *
      */
@@ -51,6 +41,16 @@ public class Book
         {
             System.out.println("이미 대출중인 도서입니다.");
         }
+    }
+
+    /**
+     * 책 대출 가능 여부 확인
+     *
+     * @return 대출가능:True, 불가능:False
+     */
+    public boolean isAvailable()
+    {
+        return resultBook;
     }
 
     /**
