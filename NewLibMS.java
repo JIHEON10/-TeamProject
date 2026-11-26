@@ -4,7 +4,7 @@ import java.util.*;
  * 도서관관리시스템의 주요 기능을 수행
  *
  * @author (2022320010 임연택)
- * @version (2026.11.02)
+ * @version (2026.11.26)
  */
 
 public class NewLibMS
@@ -143,45 +143,54 @@ public class NewLibMS
     /**
      * Use Case 3: RegisterNewBook
      *
-     * @param bookID 등록할 책 ID
+     * @param bookID 등록할 책 ID (ISBN)
      * @param title 등록할 책 제목
      * @param author 등록할 책 저자
      */
-    public void registerNewBook(String bookID, String title, String author)
+    public void registerNewBook(String isbn, String title, String author)
     {
         // 1. 기존 도서 검색
-        Book book = bookDB.search(bookID);
+        Book book = bookDB.searchByISBN(isbn);
 
-        // 2. 등록 여부에 따른 조건 분기
         if (book != null)
         {
             System.out.println("이미 등록된 책입니다!");
+            return;
         }
-        else
+
+        // 2. 바코드 번호 생성
+        String bookID = generateBookID();
+
+        // 3. 신규 도서 객체 생성
+        book = new Book(bookID, isbn, title, author);
+
+        // 4. 도서 정보 저장
+        bookDB.update(book);
+
+        // 5. 도서 정보 출력
+        book.display();
+
+        // 6. 저장 결과 확인
+        boolean bookUpdateResult = bookDB.bookUpdateResult();
+
+        // 7. 저장 결과에 따른 조건 분기
+        if (bookUpdateResult == false)
         {
-            // 3. 신규 도서 객체 생성 및 정보 설정
-            book = new Book(bookID, title, author);
-
-            // 4. 객체 정보를 화면에 출력
-            book.display();
-
-            // 5. 도서 정보 저장
-            bookDB.update(book);
-
-            // 6. 등록 완료 메시지
-            System.out.println("도서 등록 완료!");
+            // [bookUpdateResult == false]
+            System.out.println("등록 실패!");
+            return;
         }
+
+        // [bookUpdateResult == true]
+        System.out.println("도서 등록 완료!");
     }
 
     /**
-     * 메소드 예제 - 사용자에 맞게 주석을 바꾸십시오.
-     *
-     * @param  y  메소드의 샘플 파라미터
-     * @return    x 와 y의 합
+     * 신규 도서에 부여할 고유 바코드 번호 생성
      */
-    public void display(String stID, String name)
+    public String generateBookID()
     {
-        //미구현
+        return String.format("LIB%06d");
     }
 
 }

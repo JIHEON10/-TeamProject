@@ -3,14 +3,16 @@
  * Book 정보 관리 클래스
  *
  * @author (2022320010 임연택)
- * @version (2026.11.02)
+ * @version (2026.11.26)
  */
-public class Book
+public class Book implements Comparable<Book>
 {
     private String bookID;
+    private String isbn;
     private String title;
     private String author;
     private boolean resultBook;
+    private boolean available;
 
     /**
      * Book 객체 생성
@@ -19,12 +21,14 @@ public class Book
      * @param title 책 제목
      * @param author 책 저자
      */
-    public Book(String bookID, String title, String author)
+    public Book(String bookID, String isbn, String title, String author)
     {
         this.bookID = bookID;
+        this.isbn = isbn;
         this.title = title;
         this.author = author;
         this.resultBook = true;
+        this.available = true;
     }
 
     /**
@@ -61,6 +65,22 @@ public class Book
     public String getBookID()
     {
         return bookID;
+    }
+
+    public String getISBN()
+    {
+        return isbn;
+    }
+
+    /**
+     * TreeSet 정렬 및 중복 판단 기준 (bookID 순)
+     *
+     * @param other
+     * @return bookID가 앞서면 -, 같으면 0, 뒤면 +
+     */
+    public int compareTo(Book other)
+    {
+        return this.bookID.compareTo(other.bookID);
     }
 
     /**

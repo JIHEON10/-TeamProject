@@ -3,7 +3,7 @@
  * User 정보 관리 클래스
  *
  * @author (2022320010 임연택)
- * @version (2026.11.02)
+ * @version (2026.11.26)
  */
 public class User
 {
