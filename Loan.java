@@ -9,8 +9,8 @@ import java.time.*;
 public class Loan
 {
     private String loanID;
-    private User user;
-    private Book book;
+    private User borrower;
+    private Book borrowedBook;
     private LocalDate borrowDate;
     private LocalDate dueDate;
 
@@ -27,8 +27,8 @@ public class Loan
     LocalDate borrowDate, LocalDate dueDate)
     {
         this.loanID = loanID;
-        this.user = user;
-        this.book = book;
+        this.borrower = user;
+        this.borrowedBook = book;
         this.borrowDate = borrowDate;
         this.dueDate = dueDate;
     }
@@ -44,23 +44,39 @@ public class Loan
     }
 
     /**
-     * 도서 대출일 반납
+     * 대출자 반환
      *
-     * @return 도서 대출일
+     * @return borrower 이 대출의 이용자
      */
-    public LocalDate getBorrowDate()
+    public User getBorrower()
     {
-        return borrowDate;
+        return borrower;
     }
 
     /**
-     * 도서 반납일 반환
+     * 대출된 책 반환
      *
-     * @return 도서 반납일
+     * @return borrowedBook 이 대출의 책
      */
-    public LocalDate getDueDate()
+    public Book getBorrowedBook()
     {
-        return dueDate;
+        return borrowedBook;
+    }
+
+    /**
+     * User–Loan 링크 해제
+     */
+    public void removeBorrower()
+    {
+        borrower = null;
+    }
+
+    /**
+     * Loan–Book 링크 해제
+     */
+    public void removeBorrowedBook()
+    {
+        borrowedBook = null;
     }
 
     /**
@@ -71,7 +87,7 @@ public class Loan
     {
         System.out.println("=== 대출 정보 ===");
         System.out.println("대출 번호: " + loanID);
-        System.out.println("이용자 ID: " + user.getstID());
+        System.out.println("이용자 ID: " + borrower.getstID());
         System.out.println("대출일: " + borrowDate);
         System.out.println("반납 예정일: " + dueDate);
     }

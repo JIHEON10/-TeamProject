@@ -31,7 +31,7 @@ public class NewLibMS
      * Use Case 1: BorrowBook, 책 빌리는 작업 수행
      *
      * @param bookID 책 ID
-     * @param userID 사용자 ID
+     * @param stID 사용자 ID
      */
     public void borrowBook(String bookID, String stID)
     {
@@ -62,10 +62,10 @@ public class NewLibMS
         }
 
         // 5. 책의 대출 가능 여부 확인
-        boolean resultBook = book.isAvailable();
+        boolean resultBook = (loanDB.findLoan(book) == null);
 
         // 6. 사용자 대출 가능 여부 확인
-        boolean resultUser = user.canBorrow();
+        boolean resultUser = (loanDB.countLoan(user) < 3);
 
         // 7. 대출 가능 여부에 따른 조건 분기
         if (!resultBook && !resultUser)
@@ -86,17 +86,13 @@ public class NewLibMS
             LocalDate borrowDate = LocalDate.now();
             LocalDate dueDate = borrowDate.plusDays(14);
 
-            Loan loan = new Loan("-", user, book, borrowDate, dueDate);
+            Loan loan = new Loan(bookID + "-" + stID, user, book, borrowDate, dueDate);
 
             // 9. 객체 정보를 화면에 출력
             loan.display();
 
             // 10. 대출 기록 저장
             loanDB.save(loan);
-
-            // 11. 도서와 사용자 상태 갱신
-            book.markAsBorrowed();
-            user.increaseLoanCount();
         }
     }
 
@@ -143,14 +139,14 @@ public class NewLibMS
     /**
      * Use Case 3: RegisterNewBook
      *
-     * @param bookID 등록할 책 ID (ISBN)
+     * @param bookID 등록할 책 ID
      * @param title 등록할 책 제목
      * @param author 등록할 책 저자
      */
-    public void registerNewBook(String isbn, String title, String author)
+    public void registerNewBook(String bookID, String title, String author)
     {
         // 1. 기존 도서 검색
-        Book book = bookDB.searchByISBN(isbn);
+        Book book = bookDB.search(bookID);
 
         if (book != null)
         {
@@ -158,22 +154,19 @@ public class NewLibMS
             return;
         }
 
-        // 2. 바코드 번호 생성
-        String bookID = generateBookID();
+        // 2. 신규 도서 객체 생성
+        book = new Book(bookID,title,author);
 
-        // 3. 신규 도서 객체 생성
-        book = new Book(bookID, isbn, title, author);
-
-        // 4. 도서 정보 저장
+        // 3. 도서 정보 저장
         bookDB.update(book);
 
-        // 5. 도서 정보 출력
+        // 4. 도서 정보 출력
         book.display();
 
-        // 6. 저장 결과 확인
+        // 5. 저장 결과 확인
         boolean bookUpdateResult = bookDB.bookUpdateResult();
 
-        // 7. 저장 결과에 따른 조건 분기
+        // 6. 저장 결과에 따른 조건 분기
         if (bookUpdateResult == false)
         {
             // [bookUpdateResult == false]
@@ -186,11 +179,59 @@ public class NewLibMS
     }
 
     /**
-     * 신규 도서에 부여할 고유 바코드 번호 생성
+     * Use Case 4: ReturnBook
+     *
+     * @param bookID 반납할 책 ID (ISBN)
      */
-    public String generateBookID()
+    public void returnBook(String bookID)
     {
-        return String.format("LIB%06d");
-    }
+        // 1. 반납할 책 검색
+        Book book = bookDB.search(bookID);
+        if (book == null)
+        {
+            System.out.println("등록되지 않은 책입니다!");
+            return;
+        }
 
+        // 2. 책에 연결된 대출 정보 검색
+        Loan loan = loanDB.findLoan(book);
+
+        // 3. [loan == null]
+        if (loan == null)
+        {
+            System.out.println("대출 중인 책이 아닙니다!");
+            return;
+        }
+
+        // [loan != null]
+        // 4. 대출자 확인
+        User user = loan.getBorrower();
+
+        // 5. 대출 정보와 이용자 정보 출력
+        loan.display();
+        user.display();
+
+        // 6. 링크 해제 1 : User–Loan
+        loan.removeBorrower();
+
+        // 7. 링크 해제 2 : Loan–Book
+        loan.removeBorrowedBook();
+
+        // 8. LoanDB에서 대출 정보 삭제
+        loanDB.removeLoan(loan);
+
+        // 9. 삭제 결과 확인
+        boolean returnResult = loanDB.returnResult();
+
+        if (returnResult == false)
+        {
+            // [returnResult == false]
+            System.out.println("반납 실패!");
+            return;
+        }
+
+        // 10. 반납된 책 정보 출력 및 완료 메시지
+        book.display();
+        System.out.println("반납 완료!");
+    }
 }

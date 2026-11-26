@@ -39,21 +39,6 @@ public class BookDB
     }
 
     /**
-     * ISBN을 이용해 책을 검색
-     */
-    public Book searchByISBN(String isbn)
-    {
-        for (Book book : bookDB)
-        {
-            if (book.getISBN().equals(isbn))
-            {
-                return book;
-            }
-        }
-        return null;
-    }
-
-    /**
      * 새 책 bookDB에 등록
      *
      * @param book 등록할 책

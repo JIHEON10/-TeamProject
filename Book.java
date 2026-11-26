@@ -8,11 +8,8 @@
 public class Book implements Comparable<Book>
 {
     private String bookID;
-    private String isbn;
     private String title;
     private String author;
-    private boolean resultBook;
-    private boolean available;
 
     /**
      * Book 객체 생성
@@ -21,40 +18,11 @@ public class Book implements Comparable<Book>
      * @param title 책 제목
      * @param author 책 저자
      */
-    public Book(String bookID, String isbn, String title, String author)
+    public Book(String bookID, String title, String author)
     {
         this.bookID = bookID;
-        this.isbn = isbn;
         this.title = title;
         this.author = author;
-        this.resultBook = true;
-        this.available = true;
-    }
-
-    /**
-     * Book 상태를 대출중으로 변경
-     *
-     */
-    public void markAsBorrowed()
-    {
-        if (isAvailable())
-        {
-            resultBook = false;
-        }
-        else
-        {
-            System.out.println("이미 대출중인 도서입니다.");
-        }
-    }
-
-    /**
-     * 책 대출 가능 여부 확인
-     *
-     * @return 대출가능:True, 불가능:False
-     */
-    public boolean isAvailable()
-    {
-        return resultBook;
     }
 
     /**
@@ -65,11 +33,6 @@ public class Book implements Comparable<Book>
     public String getBookID()
     {
         return bookID;
-    }
-
-    public String getISBN()
-    {
-        return isbn;
     }
 
     /**
@@ -90,7 +53,7 @@ public class Book implements Comparable<Book>
     public void display()
     {
         System.out.println("=== 도서 정보 ===");
-        System.out.println("도서 번호: " + bookID);
+        System.out.println("도서 ID(ISBN): " + bookID);
         System.out.println("제목: " + title);
         System.out.println("저자: " + author);
     }

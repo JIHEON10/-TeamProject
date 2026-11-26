@@ -9,53 +9,23 @@ public class User
 {
     private String stID;
     private String name;
-    private int resultUser;
-    //private int loanCount; --?
 
     /**
      * User 객체 생성
      *
-     * @param stID 이용자 고유 ID
+     * @param stID 이용자 학번
      * @param name 이용자 이름
      */
     public User(String stID, String name)
     {
         this.stID = stID;
         this.name = name;
-        this.resultUser = 0;
-        //this.loanCount = 0;
     }
 
     /**
-     * User가 도서를 더 대출할 수 있는지 확인(상한 3)
+     * 이용자 학번 반환
      *
-     * @return 대출가능:True, 불가능:False
-     */
-    public boolean canBorrow()
-    {
-        return resultUser < 3;
-    }
-
-    /**
-     * 대출 건수 1 증가시키는 메소드
-     *
-     */
-    public void increaseLoanCount()
-    {
-        if (canBorrow())
-        {
-            resultUser++;
-        }
-        else
-        {
-            System.out.println("최대 3권까지만 대출할 수 있습니다.");
-        }
-    }
-
-    /**
-     * User 고유 ID 반환
-     *
-     * @return stID 이용자 고유 ID
+     * @return stID 이용자 학번
      */
     public String getstID()
     {
@@ -64,13 +34,11 @@ public class User
 
     /**
      * 이용자 정보 출력
-     *
      */
     public void display()
     {
         System.out.println("=== 이용자 정보 ===");
         System.out.println("학번: " + stID);
         System.out.println("이름: " + name);
-        System.out.println("현재 대출 권수: " + resultUser);
     }
 }
